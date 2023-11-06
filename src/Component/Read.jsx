@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
 const Read = () => {
   const [data, setData] = useState([]);
   const [tabledark, setTableDark] = useState("");
@@ -22,12 +21,18 @@ const Read = () => {
       });
   }
 
+  const setToLocalStorage = (id, name, email) => {
+    localStorage.setItem("id", id);
+    localStorage.setItem("name", name);
+    localStorage.setItem("email", email);
+  };
 
   useEffect(() => {
     getData();
   }, []);
-  return <div>
-     <div className="form-check form-switch">
+  return (
+    <div>
+      <div className="form-check form-switch">
         <input
           className="form-check-input"
           type="checkbox"
@@ -38,7 +43,7 @@ const Read = () => {
         />
       </div>
 
-     <div className="d-flex justify-content-between m-2">
+      <div className="d-flex justify-content-between m-2">
         <h2>Read Operation</h2>
         <Link to="/">
           <button className="btn btn-secondary">Create</button>
@@ -64,11 +69,17 @@ const Read = () => {
                   <td>{eachData.email}</td>
                   <td>
                     <Link to="/update">
-                      <button
+                    <button
                         className="btn btn-success"
-                        onClick={() => console.log('success')}
+                        onClick={() =>
+                          setToLocalStorage(
+                            eachData.id,
+                            eachData.name,
+                            eachData.email
+                          )
+                        }
                       >
-                        Edit
+                        Edit{" "}
                       </button>
                     </Link>
                   </td>
@@ -86,7 +97,8 @@ const Read = () => {
           );
         })}
       </table>
-  </div>;
+    </div>
+  );
 };
 
 export default Read;
